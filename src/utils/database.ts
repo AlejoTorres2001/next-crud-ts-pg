@@ -6,7 +6,7 @@ if (!conn){
 
         user: 'postgres',
         host: 'localhost',
-        database: 'postgres',
+        database: 'tasksdb',
         password: '1234',
         port: 5432,
     });
