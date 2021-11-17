@@ -6,7 +6,7 @@ export default function task(req: NextApiRequest, res: NextApiResponse) {
     case "GET":
         return res.status(200).json("getting task");
 
-    case "PUT":
+    case "POST":
         return res.status(200).json("creating task");
 
     default:
