@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
-import { Button, Card, Form, Icon } from "semantic-ui-react";
+import { Button, Card, Form, Grid, Icon,Confirm } from "semantic-ui-react";
 import Layout from "src/components/Layout";
 import { Task } from "src/interfaces/task";
 const NewPage = () => {
@@ -9,6 +9,7 @@ const NewPage = () => {
     title: "",
     description: "",
   });
+  const [openConfirm, setOpenConfirm] = useState(false);
   const getTaskData = async (id: string) => {
     const resp = await fetch(`http://localhost:3000/api/tasks/${id}`);
     const { title, description } = await resp.json();
@@ -43,6 +44,13 @@ const NewPage = () => {
       body: JSON.stringify(task),
     });
   };
+  const handleDelete = async (id:string) => {
+    await fetch(`http://localhost:3000/api/tasks/${id}`, {
+      method: "DELETE",
+    });
+    setOpenConfirm(false);
+    router.push("/");
+  }
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
@@ -61,7 +69,9 @@ const NewPage = () => {
   };
   return (
     <Layout>
-      <Card>
+      <Grid centered columns={3} verticalAlign="middle" style={{height:'70%'}}>
+        <Grid.Column>
+        <Card>
         <Card.Content>
           <Form onSubmit={handleSubmit}>
             <Form.Field>
@@ -100,6 +110,27 @@ const NewPage = () => {
           </Form>
         </Card.Content>
       </Card>
+          {
+            router.query.id && (
+
+              <Button color="red"
+              onClick={()=> setOpenConfirm(!openConfirm)}>
+               delete
+              </Button>
+
+            ) 
+          }
+           
+
+        </Grid.Column>
+      </Grid>
+      <Confirm
+        header="delete a task"
+        content={`Are you sure you want to delete task Number:${router.query.id}`}
+        open={openConfirm}
+        onCancel={()=>setOpenConfirm(!openConfirm)}
+        onConfirm={()=>handleDelete(router.query.id as string)}
+        />
     </Layout>
   );
 };
