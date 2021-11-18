@@ -3,6 +3,7 @@ import { Task } from "src/interfaces/task";
 import { Grid, Button, GridRow } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import TaskList from "src/components/tasks/TaskList";
+import Layout from "src/components/Layout";
 interface Props {
   tasks: Task[];
 }
@@ -10,7 +11,7 @@ interface Props {
 const IndexPage = (props: Props) => {
   const router = useRouter();
   return (
-    <div>
+    <Layout>
       {props.tasks.length === 0 ? (
         <Grid
           columns={3}
@@ -30,7 +31,7 @@ const IndexPage = (props: Props) => {
       ) : (
         <TaskList tasks={props.tasks}></TaskList>
       )}
-    </div>
+    </Layout>
   );
 };
 export const getServerSideProps = async () => {

@@ -1,3 +1,4 @@
+import { useRouter } from "next/router";
 import { Card, CardGroup } from "semantic-ui-react";
 import { Task } from "src/interfaces/task";
 
@@ -6,10 +7,11 @@ interface Props {
 }
 
 const TaskList = ({ tasks }: Props) => {
+  const router = useRouter();
   return (
     <Card.Group itemsPerRow={4}>
       {tasks.map((task) => (
-        <Card key={task.id}>
+        <Card key={task.id} onClick={()=> router.push(`/tasks/edit/${task.id}`)}>
           <Card.Content>
             <Card.Header>{task.title}</Card.Header>
           </Card.Content>
