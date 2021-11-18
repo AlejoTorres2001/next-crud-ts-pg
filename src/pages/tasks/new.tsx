@@ -1,7 +1,9 @@
+import { useRouter } from "next/router";
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Button, Card, Form, Icon } from "semantic-ui-react";
 import { Task } from "src/interfaces/task";
 const NewPage = () => {
+  const router = useRouter();
   const [task, setTask] = useState({
     title: "",
     description: "",
@@ -11,8 +13,7 @@ const NewPage = () => {
   }: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setTask({ ...task, [name]: value });
   };
-  const createTask = async (task:Task) =>{
-
+  const createTask = async (task: Task) => {
     await fetch("http://localhost:3000/api/tasks", {
       method: "POST",
       headers: {
@@ -20,17 +21,17 @@ const NewPage = () => {
       },
       body: JSON.stringify(task),
     });
-
-  }
-    const handleSubmit = async (e:FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        try {
-            await createTask(task);
-            
-        } catch (error) {
-            console.log(error);
-        }
+  };
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    try {
+      createTask(task).then(() => {
+        router.push("/");
+      });
+    } catch (error) {
+      console.log(error);
     }
+  };
   return (
     <div>
       <Card>
