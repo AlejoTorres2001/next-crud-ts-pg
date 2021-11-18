@@ -58,10 +58,13 @@ const NewPage = () => {
         updateTask(router.query.id, task);
       } else {
       createTask(task).then(() => {
+        
+       
       });
 
     } 
     router.push("/");
+    
   }
     catch (error) {
       console.log(error);

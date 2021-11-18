@@ -1,16 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Task } from "src/interfaces/task";
 import { Grid, Button, GridRow } from "semantic-ui-react";
 import { useRouter } from "next/router";
 import TaskList from "src/components/tasks/TaskList";
 import Layout from "src/components/Layout";
+import { Toaster,toast } from "react-hot-toast";
 interface Props {
   tasks: Task[];
 }
 
 const IndexPage = (props: Props) => {
   const router = useRouter();
+  const previousPath=globalThis.sessionStorage?.getItem("currentPath")
+  const isTaskCreated=previousPath === "/tasks/new";
+  useEffect(() => {
+    if(isTaskCreated)toast("tasks Successfully Created!", {type: "success"})
+    else toast("Task Succesfully Updated", {type: "success"})
+  },[])
   return (
+     
     <Layout>
       {props.tasks.length === 0 ? (
         <Grid
@@ -31,6 +39,7 @@ const IndexPage = (props: Props) => {
       ) : (
         <TaskList tasks={props.tasks}></TaskList>
       )}
+      <Toaster position="top-right"/>
     </Layout>
   );
 };
