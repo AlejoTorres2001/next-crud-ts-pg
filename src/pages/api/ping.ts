@@ -1,5 +1,5 @@
 import { NextApiRequest, NextApiResponse } from "next";
-import { conn } from "../../utils/database";
+import { conn } from "src/utils/database";
 type Pong = {
   message: string;
   timestamp: string;
